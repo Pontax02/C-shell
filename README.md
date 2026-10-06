@@ -2,7 +2,7 @@
 
 A simple Unix shell written in C, built as a personal learning project by following Stephen Brennan's tutorial [Write a Shell in C](https://brennan.io/2015/01/16/write-a-shell-in-c/).
 
-> Work in progress: the shell is being built step by step as I go through the tutorial.
+The shell implements every part of the tutorial and builds and runs under Linux or WSL.
 
 ## What it does
 
@@ -36,7 +36,18 @@ Like the tutorial's shell, this one is kept simple on purpose:
 The shell uses POSIX system calls such as `fork` and `execvp`, so it needs a Unix-like environment (Linux, macOS, or WSL on Windows).
 
 ```sh
-gcc -o shell shell.c
+gcc -Wall -o shell shell.c
+./shell
+```
+
+### On Windows
+
+Build and run inside WSL. Windows compilers such as MinGW don't provide `sys/wait.h` or `unistd.h`. For the same reason, an editor using a Windows compiler will report "cannot open source file" errors on those includes, even though the code is correct.
+
+```sh
+sudo apt install gcc        # first time only
+cd /mnt/c/path/to/C-shell
+gcc -Wall -o shell shell.c
 ./shell
 ```
 
@@ -47,6 +58,7 @@ gcc -o shell shell.c
 - Tokenizing strings with `strtok`
 - Process creation and management with `fork`, `exec` and `wait`
 - How built-in commands differ from external programs
+- Why to flush `stdout` before `fork()`: the child gets a copy of any unwritten output and prints it again when it exits
 
 ## Credits
 
