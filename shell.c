@@ -4,6 +4,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*
+  Function Declarations.
+ */
+void lsh_loop(void);
+char *lsh_read_line(void);
+char **lsh_split_line(char *line);
+int lsh_launch(char **args);
+int lsh_execute(char **args);
 
 
 int main(int argc, char **argv){
@@ -32,6 +40,7 @@ void lsh_loop(void){
 
     do {
         printf("> ");
+        fflush(stdout);
         line = lsh_read_line();
         args = lsh_split_line(line);
         status = lsh_execute(args);
@@ -81,25 +90,6 @@ char *lsh_read_line(void)
       }
     }
   }
-}
-
-
-
-char *lsh_read_line(void)
-{
-  char *line = NULL;
-  ssize_t bufsize = 0; // have getline allocate a buffer for us
-
-  if (getline(&line, &bufsize, stdin) == -1){
-    if (feof(stdin)) {
-      exit(EXIT_SUCCESS);  // We recieved an EOF
-    } else  {
-      perror("readline");
-      exit(EXIT_FAILURE);
-    }
-  }
-
-  return line;
 }
 
 
@@ -165,6 +155,7 @@ int lsh_launch(char **args)
 
 
 
+/*
   Function Declarations for builtin shell commands:
  */
 int lsh_cd(char **args);
